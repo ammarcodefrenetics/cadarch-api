@@ -5,6 +5,7 @@ import { ResponseInterface } from "../models/responseModel";
 import { truncate } from "fs/promises";
 
 export async function authenticateUserUtil(model: UserInterface) {
+  console.log(model , "model")
   if (model.email && model.password) {
     const user: UserInterface = await User.findOne({
       email: model.email,
@@ -115,6 +116,7 @@ export async function updateProfileUtil(req:any , model:any){
 }
 
 export async function updatePasswordUtil(req:any , model:any){
+  console.log('change password util')
   if (model) {
     let res = await User.findOne({ _id: req.query.id });
     if (res) {
@@ -178,5 +180,140 @@ export async function updatePasswordUtil(req:any , model:any){
       responseMessage: "Model doesn't exist",
       data: {},
     };
+  }
+}
+
+
+
+export async function generateOtpUserUtil(model: UserInterface) {
+
+  try {
+
+      if (model && model.cellPhone) {
+          //send opt code will go here
+
+          let otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+          model.otp = otp;
+
+          // let user=new MobileUser(model);
+          // const options = { new: true, upsert: true, overwrite: true, }
+          const updatedUser = await User.findOneAndUpdate({ cellPhone: model.cellPhone }, model, {new:true});
+          if (updatedUser) {
+              let response: ResponseInterface = {
+                  responseCode: 1,
+                  responseStatus: "success",
+                  responseMessage: "Otp has been sent to your number",
+                  data:  updatedUser 
+              };
+              return response
+              // const accountSid = process.env.TWILIO_ACCOUNT_SID;
+              // const authToken = process.env.TWILIO_AUTH_TOKEN;
+              // const client = require('twilio')(accountSid, authToken);
+
+              // client.messages
+              //     .create(
+              //         {
+              //             body: `your verification code for Cadarch Application is ${otp}`,
+              //             from: '+15017122661',
+              //             to: '+15558675310'
+              //         })
+              //     .then((message: any) => {
+              //         let response: ResponseInterface = {
+              //             responseCode: 1,
+              //             responseStatus: "success",
+              //             responseMessage: "Otp successfully sent",
+              //             data: { data: updatedUser }
+              //         };
+              //         return response
+              //     });
+          }
+      }
+      else {
+          let response: ResponseInterface = {
+              responseCode: 0,
+              responseStatus: "error",
+              responseMessage: 'Model does not exist',
+              data: {}
+          }
+          return response
+      }
+  }
+  catch (ex) {
+      let response: ResponseInterface = {
+          responseCode: 0,
+          responseStatus: "error",
+          responseMessage: 'Error occurred',
+          data: { data: ex }
+      }
+      return response;
+  }
+}
+
+export async function verifyOtpUserUtil(model: UserInterface) {
+
+  try {
+    console.log('got here')
+      if (model) {
+        console.log(model , " model")
+          let user: UserInterface = await User.findOne({ cellPhone: model.cellPhone });
+          console.log(user , "user")
+          if(user.otp === null || user.otp === undefined){
+            let response: ResponseInterface = {
+              responseCode: 0,
+              responseStatus: "error",
+              responseMessage: 'OTP expired please try again',
+              data: {}
+          }
+          return response
+          }
+          else{
+            if (model.otp === user.otp) {
+              model.otp = "####";
+
+              // const options = { new: true, upsert: true, overwrite: true, }
+              const updatedUser: UserInterface = await User.findOneAndUpdate({ phoneNumber: model.cellPhone }, {otp:model.otp}, {new:true});
+              if (updatedUser) {
+                  let response: ResponseInterface = {
+                      responseCode: 1,
+                      responseStatus: "success",
+                      responseMessage: 'OTP verified',
+                      data: {
+                        
+                      }
+                  }
+                  return response
+              }
+              else {
+                  let response: ResponseInterface = {
+                      responseCode: 0,
+                      responseStatus: "error",
+                      responseMessage: 'Error occurred while saving user',
+                      data: {}
+                  }
+                  return response
+              }
+          }
+          else {
+              let response: ResponseInterface = {
+                  responseCode: 0,
+                  responseStatus: "error",
+                  responseMessage: 'Otp does not verified',
+                  data: {}
+              }
+              return response
+          }
+          }
+     
+      }
+  }
+  catch (ex) {
+      let response: ResponseInterface = {
+          responseCode: 0,
+          responseStatus: "error",
+          responseMessage: 'Error occurred',
+          data: { data: ex }
+      }
+      return response
   }
 }

@@ -8,6 +8,7 @@ interface UserInterface {
   password: string;
   isActive: boolean;
   profilePhoto:string
+  otp:string
 }
 
 // Create Schema
@@ -29,6 +30,12 @@ const UserSchema = new mongoose.Schema(
     },
     profilePhoto:{
       type:String
+    },
+    otp:{
+      type:String,
+      default:'',
+      expires:'5m',
+      index:true
     }
   },
   { timestamps: { createdAt: true, updatedAt: true } }
