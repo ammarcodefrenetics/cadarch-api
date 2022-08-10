@@ -253,11 +253,8 @@ export async function generateOtpUserUtil(model: UserInterface) {
 export async function verifyOtpUserUtil(model: UserInterface) {
 
   try {
-    console.log('got here')
       if (model) {
-        console.log(model , " model")
           let user: UserInterface = await User.findOne({ cellPhone: model.cellPhone });
-          console.log(user , "user")
           if(user.otp === null || user.otp === undefined){
             let response: ResponseInterface = {
               responseCode: 0,
@@ -315,5 +312,52 @@ export async function verifyOtpUserUtil(model: UserInterface) {
           data: { data: ex }
       }
       return response
+  }
+}
+
+
+export async function resetPasswordUtil(model:any){
+  console.log('reset password util')
+  if (model) {
+        if(model.NewPassword === model.ConfirmPassword){
+          const password = await encryptPassword(model.NewPassword)
+          let result = await User.findOneAndUpdate({ cellPhone: model.cellPhone },{password : password},{new:true});
+          if(result){
+            let response: ResponseInterface = {
+              responseCode: 1,
+              responseStatus: "success",
+              responseMessage: "password updated successfully",
+              data: result
+            };
+            return response;
+          }
+          else{
+            let response: ResponseInterface = {
+              responseCode: 0,
+              responseStatus: "error",
+              responseMessage: "Failed to update password",
+              data: {},
+            };
+            return response;
+          }
+        }
+        else{
+          let response: ResponseInterface = {
+            responseCode: 0,
+            responseStatus: "error",
+            responseMessage: "passwords dont match",
+            data: {},
+          };
+          return response;
+        }
+      }
+    
+   else {
+    return {
+      responseCode: 0,
+      responseStatus: "error",
+      responseMessage: "Failed to update password",
+      data: {},
+    };
   }
 }

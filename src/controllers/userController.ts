@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { encryptPassword, verifyPassword } from '../config/encrypt';
 import { User, UserInterface } from "../models/userModel";
-import { authenticateUserUtil, generateOtpUserUtil, getAllUsers, updatePasswordUtil, updateProfileUtil, verifyOtpUserUtil} from "../utils/userUtil";
+import { authenticateUserUtil, generateOtpUserUtil, getAllUsers, resetPasswordUtil, updatePasswordUtil, updateProfileUtil, verifyOtpUserUtil} from "../utils/userUtil";
 import { GenericController } from './generic';
 // import { checkToken } from '../middlewares/token';
 const readAll = async (req: Request, res: Response) => {
@@ -68,5 +68,16 @@ const verifyOtp = async (req: Request, res: Response) => {
   catch (ex) { res.json(ex); }
 }
 
-export { readAll, authenticateUser,updateProfile,updatePassword,generateOtp,verifyOtp}
+const resetPassword = async (req: Request, res: Response) => {
+  try {
+    if (req.body) {
+      const model: any = req.body.model;
+      let response = await resetPasswordUtil(model);
+      res.json(response);
+    }
+  }
+  catch (ex) { res.json(ex); }
+}
+
+export { readAll, authenticateUser,updateProfile,updatePassword,generateOtp,verifyOtp,resetPassword}
 

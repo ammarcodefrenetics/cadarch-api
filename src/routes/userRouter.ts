@@ -1,12 +1,13 @@
 import express from 'express';
 const router = express.Router();
 import { checkToken } from '../middlewares/token';
-import { readAll, authenticateUser,updateProfile, updatePassword, generateOtp, verifyOtp } from '../controllers/userController';
+import { readAll, authenticateUser,updateProfile, updatePassword, generateOtp, verifyOtp, resetPassword } from '../controllers/userController';
 import { getUpload } from "../config/multerHelper";
 const upload = getUpload("user");
 router.post('/login', authenticateUser);
 router.post('/forgotpassword', generateOtp);
 router.post('/verifyotp', verifyOtp);
+
 router.post('/login', authenticateUser);
 router.patch("/updateprofile", checkToken, async (req: any, res: any) => {
     upload(req, res, async (err: any) => {
@@ -22,7 +23,7 @@ router.patch("/updateprofile", checkToken, async (req: any, res: any) => {
     });
   });
 
-
+  router.patch('/resetpassword', resetPassword);
 router.patch('/changepassword', updatePassword);
 router.get('/all', checkToken, readAll);
 
