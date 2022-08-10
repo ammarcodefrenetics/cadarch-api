@@ -5,7 +5,6 @@ const saltRounds = 10;
 export async function encryptPassword(plainPassword: String) {
     try {
         const encyptedPassword = await bcrypt.hash(plainPassword, saltRounds);
-        console.log(encyptedPassword);
         return encyptedPassword;
     }
     catch (ex) {

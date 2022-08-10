@@ -80,3 +80,103 @@ export async function getAllUsers() {
     return response;
   }
 }
+
+export async function updateProfileUtil(req:any , model:any){
+  if(req.files.length > 0){
+    model.profilePhoto = req.files[0].path
+  }
+  if (model) {
+    let res = await User.findOneAndUpdate({ _id: req.query.id }, model,{new:true});
+    if (res) {
+      let response: ResponseInterface = {
+        responseCode: 1,
+        responseStatus: "success",
+        responseMessage: "profile updated successfully",
+        data: res
+      };
+      return response;
+    } else {
+      let response: ResponseInterface = {
+        responseCode: 0,
+        responseStatus: "error",
+        responseMessage: "Failed to update profile",
+        data: {},
+      };
+      return response;
+    }
+  } else {
+    return {
+      responseCode: 0,
+      responseStatus: "error",
+      responseMessage: "Model doesn't exist",
+      data: {},
+    };
+  }
+}
+
+export async function updatePasswordUtil(req:any , model:any){
+  if (model) {
+    let res = await User.findOne({ _id: req.query.id });
+    if (res) {
+      let passwordCheck = await verifyPassword(model.OldPassword , res.password)
+      if(passwordCheck){
+        if(model.NewPassword === model.ConfirmPassword){
+          const password = await encryptPassword(model.NewPassword)
+          let result = await User.findOneAndUpdate({ _id: req.query.id },{password : password},{new:true});
+          if(result){
+            let response: ResponseInterface = {
+              responseCode: 1,
+              responseStatus: "success",
+              responseMessage: "password updated successfully",
+              data: res
+            };
+            return response;
+          }
+          else{
+            let response: ResponseInterface = {
+              responseCode: 0,
+              responseStatus: "error",
+              responseMessage: "Failed to update password",
+              data: {},
+            };
+            return response;
+          }
+        }
+        else{
+          let response: ResponseInterface = {
+            responseCode: 0,
+            responseStatus: "error",
+            responseMessage: "passwords dont match",
+            data: {},
+          };
+          return response;
+        }
+      }
+      else{
+        let response: ResponseInterface = {
+          responseCode: 0,
+          responseStatus: "error",
+          responseMessage: "wrong password",
+          data: {},
+        };
+        return response;
+      }
+    
+    } else {
+      let response: ResponseInterface = {
+        responseCode: 0,
+        responseStatus: "error",
+        responseMessage: "Failed to update password",
+        data: {},
+      };
+      return response;
+    }
+  } else {
+    return {
+      responseCode: 0,
+      responseStatus: "error",
+      responseMessage: "Model doesn't exist",
+      data: {},
+    };
+  }
+}

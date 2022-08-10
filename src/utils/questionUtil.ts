@@ -185,7 +185,7 @@ export async function readQuestionsMobileUtil() {
     for(let i=0 ;i<questions.length ; i++){
      const res = await Promise.all([
        QuestionOption.find({questionId:questions[i]._id , isDeleted: false},{_id:1,title:1,details:1,priceEffectPSF:1}),
-        Dependencies.findOne({'dependentQuestion.id' : questions[i]._id , isDeleted: false},{'dependsOnQuestion.id':1,'dependsOnOptions.id':1 ,_id:0})
+        Dependencies.find({'dependentQuestion.id' : questions[i]._id , isDeleted: false},{'dependsOnQuestion.id':1,'dependsOnOptions.id':1 ,_id:0})
       ])
       console.log(res,"logging res")
 

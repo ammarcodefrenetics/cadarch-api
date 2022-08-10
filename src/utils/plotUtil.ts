@@ -176,7 +176,7 @@ export async function updatePlotUtil(
       let response: ResponseInterface = {
         responseCode: 1,
         responseStatus: "success",
-        responseMessage: "News updated successfully",
+        responseMessage: "Plot updated successfully",
         data: { data: res },
       };
       return response;
@@ -184,7 +184,7 @@ export async function updatePlotUtil(
       let response: ResponseInterface = {
         responseCode: 0,
         responseStatus: "error",
-        responseMessage: "Failed to update news model",
+        responseMessage: "Failed to update Plot",
         data: {},
       };
       return response;

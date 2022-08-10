@@ -71,7 +71,6 @@ export async function getAllDashboardDataUtil() {
         }
       }
     ])
-    console.log(renovationOrders, " :users")
     if (renovationOrders && constructionOrders && architectureOrders) {
       let response: ResponseInterface = {
         responseCode: 1,

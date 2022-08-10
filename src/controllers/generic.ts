@@ -39,9 +39,9 @@ export class GenericController {
 
     generateTokenForUser(user: UserInterface) {
         let secret = process.env.secretkey;
-        let credentials = user.userName != "undefined" ? user : null;
+        let credentials = user.firstName != "undefined" ? user : null;
         if (credentials) {
-            let token = jwt.sign({ username: credentials.userName },
+            let token = jwt.sign({ username: credentials.firstName },
                 secret,
                 {
                     expiresIn: '24h' // expires in 24 hours

@@ -54,6 +54,9 @@ export async function getDependenciesUtil() {
     return response;
   }
 }
+
+
+
 export async function updateDependencyUtil(dependencies: any) {
   //   console.log("res", dependencies);
   if (dependencies) {

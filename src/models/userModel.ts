@@ -1,32 +1,23 @@
 import mongoose from "mongoose";
 
 interface UserInterface {
-  fullName: string;
-  userName: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  phoneNo: number;
+  cellPhone: string;
   password: string;
   isActive: boolean;
-  address: UserAddress[];
-  createdBy: number;
-  updatedBy: number;
+  profilePhoto:string
 }
 
-interface UserAddress {
-  street: string,
-  suite: string,
-  city: string,
-  zipcode: string,
-}
 // Create Schema
 const UserSchema = new mongoose.Schema(
   {
-    fullName: String,
-    userName: String,
+    firstName: String,
+    lastName: String,
     email: String,
-    phoneNo: {
-      type: Number,
-      required: true,
+    cellPhone: {
+      type: String,
     },
     password: {
       type: String,
@@ -36,15 +27,9 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       required: true
     },
-    address: String,
-    createdBy: {
-      type: Number,
-      required: true
-    },
-    updatedBy: {
-      type: Number,
-      required: true
-    },
+    profilePhoto:{
+      type:String
+    }
   },
   { timestamps: { createdAt: true, updatedAt: true } }
 );
