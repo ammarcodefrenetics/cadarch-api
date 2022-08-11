@@ -3,7 +3,6 @@ import { QuestionOptionInterface } from './questionOptionModel';
 
 interface QuestionInterface {
     _id:string
-    userId: number;
     title: string;
     details: string;
     isBasic: boolean;
@@ -15,7 +14,6 @@ interface QuestionInterface {
     // questionOptions: [];
 }
 export interface QuestionViewInterface {
-    userId: number;
     title: string;
     details: string;
     isBasic: boolean;
@@ -27,10 +25,7 @@ export interface QuestionViewInterface {
     // questionOptions?: Array<QuestionOptionInterface>;
 }
 const QuestionSchema = new mongoose.Schema({
-    userId: {
-        type: Number,
-        allowNull: true
-    },
+ 
     title: {
         type: String,
         allowNull: true

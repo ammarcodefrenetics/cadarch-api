@@ -285,7 +285,7 @@ export async function verifyOtpUserUtil(model: UserInterface) {
                   let response: ResponseInterface = {
                       responseCode: 0,
                       responseStatus: "error",
-                      responseMessage: 'Error occurred while saving user',
+                      responseMessage: 'verification failed',
                       data: {}
                   }
                   return response
@@ -295,7 +295,7 @@ export async function verifyOtpUserUtil(model: UserInterface) {
               let response: ResponseInterface = {
                   responseCode: 0,
                   responseStatus: "error",
-                  responseMessage: 'Otp does not verified',
+                  responseMessage: 'Otp does not match',
                   data: {}
               }
               return response
