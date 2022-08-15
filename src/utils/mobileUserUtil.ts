@@ -165,7 +165,6 @@ export async function signUpMobileUserUtil(model: MobileUserInterface) {
 
     try {
         if (model) {
-
             let user: MobileUserInterface = await MobileUser.findOne({ phoneNumber: model.phoneNumber });
             console.log(user);
             if (user.phoneOtp == "####") {

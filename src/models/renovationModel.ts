@@ -4,7 +4,7 @@ interface RenovationInterface {
   renovationType: string;
   details: string;
   audioFile: string;
-  area: number;
+  area?: number;
   address: string;
   isFollowUp: boolean;
   commnets: string;
@@ -31,7 +31,10 @@ const RenovationSchema = new mongoose.Schema(
       type: String,
       default: "renovation",
     },
-    area: Number,
+    area: {
+      type:Number,
+      default:0
+    },
     address: String,
     isFollowUp: { type: Boolean, default: false },
     comments: { type: String, default: "" },

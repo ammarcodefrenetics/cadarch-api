@@ -4,7 +4,7 @@ interface ConstructionInterface {
   constructionType: string;
   constructionTypeOption: string[];
   details: string;
-  area: number;
+  area?: number;
   audioFile: string;
   address: string;
   location: Object;
@@ -22,11 +22,14 @@ const ConstructionSchema = new mongoose.Schema(
     },
     orderType: {
       type: String,
-      default: "architecture",
+      default: "construction",
     },
     constructionType: String,
     constructionTypeOption: [String],
-    area: Number,
+    area: {
+      type:Number,
+      default:0
+    },
     audioFile: String,
     details: String,
     address: String,

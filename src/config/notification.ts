@@ -29,9 +29,9 @@ admin.messaging().send(message, {
   });
 }
 
-export const sendNotificationMultipleDevices=async(regTokens:string[])=>{
+export const sendNotificationMultipleDevices=async(regTokens:string[],data:string)=>{
     const message = {
-        data: {score: '850', time: '2:45'},
+        data: data,
         tokens: regTokens,
       };
       
@@ -45,6 +45,9 @@ export const sendNotificationMultipleDevices=async(regTokens:string[])=>{
               }
             });
             console.log('List of tokens that caused failures: ' + failedTokens);
+          }
+          else{
+            console.log('notifications sent')
           }
         });
 }
