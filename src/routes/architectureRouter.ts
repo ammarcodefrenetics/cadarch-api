@@ -14,7 +14,7 @@ import {
 
 const upload = getUpload("renovation");
 
-router.post("/addarchitecture" ,addArchitecture)
+router.post("/addarchitecture" , checkToken,addArchitecture)
 router.get("/loadallarchitecture", checkToken, readAllArchitecture);
 router.patch("/updatearchitecture", checkToken, updateOneArchitecture);
 router.get(

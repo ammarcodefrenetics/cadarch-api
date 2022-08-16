@@ -3,6 +3,7 @@ import { User, UserInterface } from "../models/userModel";
 import { GenericController } from "../controllers/generic";
 import { ResponseInterface } from "../models/responseModel";
 import { truncate } from "fs/promises";
+import { sendOtp } from "../config/twilio";
 
 export async function authenticateUserUtil(model: UserInterface) {
   console.log(model , "model")
@@ -195,11 +196,14 @@ export async function generateOtpUserUtil(model: UserInterface) {
           let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
           model.otp = otp;
-
-          // let user=new MobileUser(model);
-          // const options = { new: true, upsert: true, overwrite: true, }
+          const sendMessage = await sendOtp(model.cellPhone , otp)
+          if(!sendMessage){
+            console.log('twilio error')
+            return
+          }
           const updatedUser = await User.findOneAndUpdate({ cellPhone: model.cellPhone }, model, {new:true});
           if (updatedUser) {
+              
               let response: ResponseInterface = {
                   responseCode: 1,
                   responseStatus: "success",
@@ -207,26 +211,7 @@ export async function generateOtpUserUtil(model: UserInterface) {
                   data:  updatedUser 
               };
               return response
-              // const accountSid = process.env.TWILIO_ACCOUNT_SID;
-              // const authToken = process.env.TWILIO_AUTH_TOKEN;
-              // const client = require('twilio')(accountSid, authToken);
-
-              // client.messages
-              //     .create(
-              //         {
-              //             body: `your verification code for Cadarch Application is ${otp}`,
-              //             from: '+15017122661',
-              //             to: '+15558675310'
-              //         })
-              //     .then((message: any) => {
-              //         let response: ResponseInterface = {
-              //             responseCode: 1,
-              //             responseStatus: "success",
-              //             responseMessage: "Otp successfully sent",
-              //             data: { data: updatedUser }
-              //         };
-              //         return response
-              //     });
+          
           }
       }
       else {

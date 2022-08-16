@@ -14,7 +14,7 @@ import {
 
 const upload = getUpload('construction');
 
-router.post('/addconstruction', addConstruction)
+router.post('/addconstruction', checkToken,addConstruction)
 router.get('/loadallconstruction', checkToken, readAllConstruction);
 router.get('/getallpaginatedconstruction', checkToken, readAllPaginatedConstruction);
 router.get('/getallpaginatedconstructionhistory', checkToken, readAllPaginatedConstructionHistory);
