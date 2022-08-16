@@ -15,7 +15,7 @@ export const sendOtp = async (phoneNumber: string, otp: string) => {
             const message = await client.messages
                 .create({
                     body: `This is your verification code for Cadarch App ${otp}`,
-                    from: `${twilioPhoneNumber}`,
+                    from: `+12025178039`,
                     to: `${phoneNumber}`
                 })
             if (!message.errorCode) {

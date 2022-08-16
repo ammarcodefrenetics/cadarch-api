@@ -3,6 +3,7 @@ import { GenericController } from "../controllers/generic";
 import { verifyPassword, encryptPassword } from "../config/encrypt";
 import { MobileUser, MobileUserInterface } from "../models/modileUserModel";
 import { ResponseInterface } from "../models/responseModel";
+import { sendOtp } from "../config/twilio";
 
 export async function getAllMobileUsersUtil() {
     try {
@@ -54,6 +55,17 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
             const options = { new: true, upsert: true, overwrite: true, }
             const updatedUser = await MobileUser.findOneAndUpdate({ phoneNumber: model.phoneNumber }, model, options);
             if (updatedUser) {
+                const sendMessage = await sendOtp(model.phoneNumber.toString() , otp)
+                if(!sendMessage){
+                    console.log('twilio error')
+                    let response: ResponseInterface = {
+                        responseCode: 0,
+                        responseStatus: "failure",
+                        responseMessage: "Please provide correct number",
+                        data: {}
+                    };
+                    return response
+                }
                 let response: ResponseInterface = {
                     responseCode: 1,
                     responseStatus: "success",
@@ -61,26 +73,6 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
                     data: { data: updatedUser }
                 };
                 return response
-                // const accountSid = process.env.TWILIO_ACCOUNT_SID;
-                // const authToken = process.env.TWILIO_AUTH_TOKEN;
-                // const client = require('twilio')(accountSid, authToken);
-
-                // client.messages
-                //     .create(
-                //         {
-                //             body: `your verification code for Cadarch Application is ${otp}`,
-                //             from: '+15017122661',
-                //             to: '+15558675310'
-                //         })
-                //     .then((message: any) => {
-                //         let response: ResponseInterface = {
-                //             responseCode: 1,
-                //             responseStatus: "success",
-                //             responseMessage: "Otp successfully sent",
-                //             data: { data: updatedUser }
-                //         };
-                //         return response
-                //     });
             }
         }
         else {
@@ -197,7 +189,7 @@ export async function signUpMobileUserUtil(model: MobileUserInterface) {
                 let response: ResponseInterface = {
                     responseCode: 0,
                     responseStatus: "error",
-                    responseMessage: 'Otp does not verified',
+                    responseMessage: 'Otp does not match',
                     data: {}
                 }
                 return response

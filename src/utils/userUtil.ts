@@ -199,7 +199,13 @@ export async function generateOtpUserUtil(model: UserInterface) {
           const sendMessage = await sendOtp(model.cellPhone , otp)
           if(!sendMessage){
             console.log('twilio error')
-            return
+            let response: ResponseInterface = {
+              responseCode: 0,
+              responseStatus: "failure",
+              responseMessage: "Please provide correct phone number",
+              data: {}
+          };
+          return response
           }
           const updatedUser = await User.findOneAndUpdate({ cellPhone: model.cellPhone }, model, {new:true});
           if (updatedUser) {
