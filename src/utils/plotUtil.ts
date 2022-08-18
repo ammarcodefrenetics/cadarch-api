@@ -76,6 +76,54 @@ export async function readAllPlotsUtil() {
   }
 }
 
+export async function readAllPlotsMobileUtil() {
+  let res = await Plot.find({ isDeleted: false }, {
+    title: 1,
+    coveredArea: 1,
+    coveredAreaWithBasement: 1,
+  })
+    .sort({ createdAt: -1 })
+    .populate({
+      path: "attachmentsPath",
+      select: { _id: 0, path: 1 },
+    })
+   
+  if (res) {
+    let newRes = []
+    if(res.length>0){
+      
+      for(let i=0 ; i<res.length ; i++){
+        newRes.push(
+          {
+            _id:res[i]._id,
+            title:res[i].title,
+            coveredArea:res[i].coveredArea,
+            coveredAreaWithBasement:res[i].coveredAreaWithBasement,
+            image : res[i].attachmentsPath[0].path
+          }
+        )
+    
+      }
+    }
+   
+    let response: ResponseInterface = {
+      responseCode: 1,
+      responseStatus: "success",
+      responseMessage: "List of all plots",
+      data: { data: newRes },
+    };
+    return response;
+  } else {
+    let response: ResponseInterface = {
+      responseCode: 1,
+      responseStatus: "error",
+      responseMessage: "Error occurred",
+      data: {},
+    };
+    return response;
+  }
+}
+
 export async function deleteOnePlotUtil(id: string) {
   // let res = await Plot.findOneAndDelete({ _id: id }, { new: true });
   let res = await Plot.findOneAndUpdate(

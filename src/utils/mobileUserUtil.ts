@@ -83,6 +83,7 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
         }
     }
     catch (ex) {
+        
         let response: ResponseInterface = {
             responseCode: 0,
             responseStatus: "error",

@@ -1,5 +1,5 @@
 import { PlotsInterface} from '../models/plotsModel';
-import { addPlotUtil, readAllPlotsUtil, deleteOnePlotUtil,updatePlotUtil } from '../utils/plotUtil';
+import { addPlotUtil, readAllPlotsUtil, deleteOnePlotUtil,updatePlotUtil, readAllPlotsMobileUtil } from '../utils/plotUtil';
 
 const addPlot = async (req: any, res: any) => {
     try {
@@ -29,6 +29,14 @@ const readAllPlots = async (req: any, res: any) => {
         res.json(response);
     } catch (err) { console.log(err) }
 }
+
+const readAllPlotsMobile = async (req: any, res: any) => {
+    try {
+        let response = await readAllPlotsMobileUtil();
+        res.json(response);
+    } catch (err) { console.log(err) }
+}
+
 const deleteOnePlot = async (req: any, res: any) => {
     try {
         let id = req.query.id;
@@ -36,4 +44,4 @@ const deleteOnePlot = async (req: any, res: any) => {
         res.json(response);
     } catch (err) { console.log(err) }
 }
-export { addPlot, readAllPlots, deleteOnePlot,updatePlot }
+export { addPlot, readAllPlots, deleteOnePlot,updatePlot,readAllPlotsMobile }

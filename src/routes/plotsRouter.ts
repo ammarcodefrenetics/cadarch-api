@@ -8,6 +8,7 @@ import {
   readAllPlots,
   deleteOnePlot,
   updatePlot,
+  readAllPlotsMobile,
 } from "../controllers/plotController";
 router.post("/addplot", checkToken, async (req: any, res: any) => {
   upload(req, res, async (err: any) => {
@@ -39,5 +40,6 @@ router.patch("/updateplot", checkToken, async (req: any, res: any) => {
 });
 
 router.get("/getallplots", checkToken, readAllPlots);
+router.get("/getallplotsmobile", checkToken, readAllPlotsMobile);
 router.patch("/deleteplotbyid", checkToken, deleteOnePlot);
 export default router;
