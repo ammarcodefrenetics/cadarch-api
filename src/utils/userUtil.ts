@@ -11,6 +11,7 @@ export async function authenticateUserUtil(model: UserInterface) {
     const user: UserInterface = await User.findOne({
       email: model.email,
       IsActive: true,
+      // otp:'####'
     });
     if (user) {
       const isVerified = await verifyPassword(model.password, user.password);
@@ -189,10 +190,18 @@ export async function updatePasswordUtil(req:any , model:any){
 export async function generateOtpUserUtil(model: UserInterface) {
 
   try {
-
       if (model && model.cellPhone) {
           //send opt code will go here
-
+          const user = await User.findOne({ cellPhone: model.cellPhone });
+          if(!user){
+            let response: ResponseInterface = {
+              responseCode: 0,
+              responseStatus: "failure",
+              responseMessage: "phone number not found",
+              data: {}
+          };
+          return response
+          }
           let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
           model.otp = otp;
@@ -202,7 +211,7 @@ export async function generateOtpUserUtil(model: UserInterface) {
             let response: ResponseInterface = {
               responseCode: 0,
               responseStatus: "failure",
-              responseMessage: "Please provide correct phone number",
+              responseMessage: "something went wrong",
               data: {}
           };
           return response
@@ -235,7 +244,7 @@ export async function generateOtpUserUtil(model: UserInterface) {
           responseCode: 0,
           responseStatus: "error",
           responseMessage: 'Error occurred',
-          data: { data: ex }
+          data: {}
       }
       return response;
   }

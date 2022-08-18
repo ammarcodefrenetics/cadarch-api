@@ -43,12 +43,9 @@ export async function getAllMobileUsersUtil() {
 export async function authenticateMobileUserUtil(model: MobileUserInterface) {
 
     try {
-
         if (model && model.phoneNumber) {
             //send opt code will go here
-
             let otp = Math.floor(1000 + Math.random() * 9000).toString();
-
             model.phoneOtp = otp;
 
             // let user=new MobileUser(model);
@@ -61,7 +58,7 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
                     let response: ResponseInterface = {
                         responseCode: 0,
                         responseStatus: "failure",
-                        responseMessage: "Please provide correct number",
+                        responseMessage: "something went wrong",
                         data: {}
                     };
                     return response
@@ -69,7 +66,7 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
                 let response: ResponseInterface = {
                     responseCode: 1,
                     responseStatus: "success",
-                    responseMessage: "Otp successfully sent",
+                    responseMessage: "OTP sent successfully",
                     data: { data: updatedUser }
                 };
                 return response
@@ -90,7 +87,7 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
             responseCode: 0,
             responseStatus: "error",
             responseMessage: 'Error occurred',
-            data: { data: ex }
+            data: {}
         }
         return response;
     }

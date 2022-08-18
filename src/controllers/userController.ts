@@ -17,6 +17,7 @@ const readAll = async (req: Request, res: Response) => {
 
 
 const authenticateUser = async (req: Request, res: Response) => {
+  console.log('received request')
   try {
     if (req.body) {
       const model: UserInterface = req.body;

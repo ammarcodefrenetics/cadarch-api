@@ -79,9 +79,7 @@ export async function readAllCostEstimatorUtil(req: any, res: any) {
 
 export async function deleteOneCostEstimatorUtil(req: any) {
     if (req.query.id) {
-        console.log(req.query.id, " :deleted doc")
         const newModel = await CostEstimator.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(req.query.id) }, { isDeleted: true }, { new: true });
-        console.log(newModel, " :deleted doc")
         if (newModel) {
             let response: ResponseInterface = {
                 responseCode: 1,

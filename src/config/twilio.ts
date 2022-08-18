@@ -26,12 +26,11 @@ export const sendOtp = async (phoneNumber: string, otp: string) => {
             }
         }
         else {
-            console.log('phoneNumber or otp miossing')
-            return false
+            console.log('phoneNumber or otp missing')
         }
     }
-    catch (e) {
-        console.log(e, "error")
+    catch (e:any) {
+        console.log(e.error_message, "error")
         return false
     }
 }
