@@ -8,7 +8,8 @@ import {
     getAllMobileUsersUtil,
     signUpMobileUserUtil,
     loginMobileUser,
-    verifyMobileUserOtpUtil
+    verifyMobileUserOtpUtil,
+    logoutUtil
 } from "../utils/mobileUserUtil";
 
 const readAll = async (req: Request, res: Response) => {
@@ -74,4 +75,11 @@ const mobileUserLogin = async (req: Request, res: Response) => {
     }
 }
 
-export { readAll, authenticateMobileUser, verifyMobileUserOtp, signupMobileUser, mobileUserLogin }
+const mobileUserLogout = async (req: Request, res: Response) => {
+    if (req.body && req.body.id) {
+        let response = await logoutUtil(req.body.id);
+        res.json(response)
+    }
+}
+
+export { readAll, authenticateMobileUser, verifyMobileUserOtp, signupMobileUser, mobileUserLogin,mobileUserLogout }

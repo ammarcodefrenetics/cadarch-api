@@ -183,7 +183,7 @@ export async function readOneQuestionOptionUtil(req: any, res: any) {
 export async function deleteOneQuestionOptionUtil(id: string) {
   if (id) {
     let optionCheck = await Dependencies.find({
-      dependsOnOption: new mongoose.Types.ObjectId(id),
+      'dependsOnOptions.id': id,
       isDeleted:false
     });
     if (optionCheck.length > 0) {

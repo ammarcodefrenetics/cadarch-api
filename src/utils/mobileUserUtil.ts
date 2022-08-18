@@ -243,3 +243,29 @@ export async function loginMobileUser(phoneNumber: string) {
         return response
     }
 }
+
+export const logoutUtil = async(id:string)=>{
+if(id){
+    const logout = await MobileUser.findOneAndUpdate({_id:id},{fcmToken:"#"},{new:true})
+    if(logout){
+        let response: ResponseInterface = {
+            responseCode: 1,
+            responseStatus: "success",
+            responseMessage: 'Logged out successfully',
+            data: {}
+        }
+        return response
+    }
+    else{
+        let response: ResponseInterface = {
+            responseCode: 0,
+            responseStatus: "error",
+            responseMessage: 'Error occurred',
+            data: {}
+        }
+        return response
+    }
+}
+console.log('id is missing')
+return
+}

@@ -89,10 +89,8 @@ export async function addQuestionOptionUtil(model: QuestionOptionInterface) {
 export async function readAllQuestionUtil() {
   try {
     let questions: QuestionInterface[] = await Question.find({
-      IsActive: true,
       isDeleted: false,
     }).sort({displayOrder:1});
-
     if (questions) {
       let response: ResponseInterface = {
         responseCode: 1,

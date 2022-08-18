@@ -300,7 +300,7 @@ export async function updateOneRenovationUtil(req: any, res: any, id: string) {
     let response: ResponseInterface = {
       responseCode: 1,
       responseStatus: "success",
-      responseMessage: "Renovation updated successfullyy",
+      responseMessage: "Renovation updated successfully",
       data: { data: resp },
     };
     return response;

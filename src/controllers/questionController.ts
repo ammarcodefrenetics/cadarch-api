@@ -53,7 +53,6 @@ const readAllDetailedQuestion = async (req: any, res: any) => {
 };
 
 const readMobileQuestions = async (req: any, res: any) => {
-  console.log("reading")
   try {
     let response = await readQuestionsMobileUtil();
     res.json(response);
