@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
 
 interface MobileUserInterface {
-    fullName: string;
-    phoneNumber: number;
-    phoneOtp: string;
-    isActive: boolean;
+    serialNO:string,
+    fullName: string
+    phoneNumber: number
+    phoneOtp: string
+    address:string
+    isActive: boolean
     isDeleted:boolean
     fcmToken:string
 }
 // Create Schema
 const MobileUserSchema = new mongoose.Schema(
     {
+        serialNO:String,
         fullName: {
             type: String,
             required: false,
@@ -23,6 +26,9 @@ const MobileUserSchema = new mongoose.Schema(
             type: String,
             required: false
         },
+        address:{
+            type:String,
+          },
         isActive: {
             type: Boolean,
             required: false,

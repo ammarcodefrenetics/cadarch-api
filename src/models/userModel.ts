@@ -9,6 +9,7 @@ interface UserInterface {
   isActive: boolean;
   profilePhoto:string
   otp:string
+  
 }
 
 // Create Schema

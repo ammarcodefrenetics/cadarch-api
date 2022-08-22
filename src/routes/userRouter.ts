@@ -23,7 +23,7 @@ router.patch("/updateprofile", checkToken, async (req: any, res: any) => {
     });
   });
 
-  router.patch('/resetpassword', resetPassword);
+router.patch('/resetpassword', resetPassword);
 router.patch('/changepassword', updatePassword);
 router.get('/all', checkToken, readAll);
 

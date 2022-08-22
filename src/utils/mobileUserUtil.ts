@@ -1,4 +1,4 @@
-import { convertToObject } from "typescript";
+import { convertToObject, findConfigFile } from "typescript";
 import { GenericController } from "../controllers/generic";
 import { verifyPassword, encryptPassword } from "../config/encrypt";
 import { MobileUser, MobileUserInterface } from "../models/modileUserModel";
@@ -49,8 +49,14 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
             model.phoneOtp = otp;
 
             // let user=new MobileUser(model);
-            const options = { new: true, upsert: true, overwrite: true, }
-            const updatedUser = await MobileUser.findOneAndUpdate({ phoneNumber: model.phoneNumber }, model, options);
+            const countDocs = await MobileUser.countDocuments()
+            const existingUserCheck = await MobileUser.findOne({phoneNumber: model.phoneNumber})
+            console.log(countDocs , " ----- " , existingUserCheck)
+            if(!existingUserCheck){
+                model.serialNO = `${countDocs+1}`
+            }
+            const updatedUser = await MobileUser.findOneAndUpdate({ phoneNumber: model.phoneNumber }, model, {new:true , upsert:!existingUserCheck ?true :false});
+            console.log(updatedUser , " :updated user")
             if (updatedUser) {
                 const sendMessage = await sendOtp(model.phoneNumber.toString() , otp)
                 if(!sendMessage){
@@ -83,7 +89,7 @@ export async function authenticateMobileUserUtil(model: MobileUserInterface) {
         }
     }
     catch (ex) {
-        
+
         let response: ResponseInterface = {
             responseCode: 0,
             responseStatus: "error",
@@ -103,7 +109,7 @@ export async function verifyMobileUserOtpUtil(model: MobileUserInterface) {
             if (model.phoneOtp == user.phoneOtp) {
                 model.phoneOtp = "####";
 
-                const options = { new: true, upsert: true, overwrite: true, }
+                const options = { new: true }
                 const updatedUser: MobileUserInterface = await MobileUser.findOneAndUpdate({ phoneNumber: model.phoneNumber }, model, options);
                 let tokenController = new GenericController();
                 const token = tokenController.generateTokenForMobileUser(updatedUser);
@@ -156,13 +162,13 @@ export async function signUpMobileUserUtil(model: MobileUserInterface) {
     try {
         if (model) {
             let user: MobileUserInterface = await MobileUser.findOne({ phoneNumber: model.phoneNumber });
-            console.log(user);
             if (user.phoneOtp == "####") {
                 user.fullName = model.fullName
                 user.fcmToken = model.fcmToken
+                user.address = model.address
                 // let newUser = new MobileUser(user);
                 // const updatedUser = await newUser.findOneAndUpdate();
-                const options = { new: true, upsert: true, overwrite: true, }
+                const options = { new: true }
                 const updatedUser = await MobileUser.findOneAndUpdate({ phoneNumber: model.phoneNumber }, user, options);
                 if (updatedUser) {
                     let response: ResponseInterface = {

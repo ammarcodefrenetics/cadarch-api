@@ -54,7 +54,6 @@ const verifyMobileUserOtp = async (req: Request, res: Response) => {
 const signupMobileUser = async (req: Request, res: Response) => {
 
     if (req.body && req.body.phoneNumber && req.body.fullName) {
-        console.log(req.body , " ghjk")
         let model: MobileUserInterface = req.body;
         let response = await signUpMobileUserUtil(model);
         return res.json(response);
