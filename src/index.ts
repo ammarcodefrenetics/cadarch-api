@@ -67,7 +67,7 @@ app.use("/api", async(req : any, res: Response, next: NextFunction) => {
 });
 
 //cronjobs
-// sendNewsNotifications()
+sendNewsNotifications()
 
 
 //App listening
