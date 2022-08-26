@@ -32,7 +32,7 @@ export const sendNewsNotifications = async () => {
       catch(e){
         console.log(e , "exception occurred")
       }
-      
+  
     }
     else {
       console.log('db not connected yet')

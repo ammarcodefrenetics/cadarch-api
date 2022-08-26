@@ -68,7 +68,7 @@ export async function updateQuestionOptionUtil(
         { _id: req.query.id },
         { image: 1 }
       );
-      if (oldOption) {
+      if (oldOption && oldOption.image) {
         for (let j = 0; j < oldOption.image.length; j++) {
           fs.unlink(oldOption.image[j], function (err) {
             if (err) {
