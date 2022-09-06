@@ -8,8 +8,8 @@ interface ArchitectureInterface {
   address: string;
   isFollowUp: boolean;
   commnets: string;
-  location: object;
-  attachmentsPath: object[];
+  location: Object;
+  attachmentsPath: Object[];
   isDeleted: boolean;
 }
 export interface LocationDetails {

@@ -7,10 +7,10 @@ interface ConstructionInterface {
   area?: number;
   audioFile?: string;
   address: string;
-  location: object;
+  location: Object;
   isFollowUp: boolean;
   commnets: string;
-  attachmentsPath: object[];
+  attachmentsPath: Object[];
   isDeleted: boolean;
 }
 

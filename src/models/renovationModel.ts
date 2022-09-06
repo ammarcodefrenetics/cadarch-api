@@ -8,9 +8,9 @@ interface RenovationInterface {
   address: string;
   isFollowUp: boolean;
   commnets: string;
-  location: object;
+  location: Object;
   orderType: string;
-  attachmentsPath: object[];
+  attachmentsPath: Object[];
   isDeleted: boolean;
 }
 
