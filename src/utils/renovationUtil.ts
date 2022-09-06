@@ -64,7 +64,7 @@ export async function addRenovationUtil(req: any, res: any, model: RenovationInt
       }
     }
     //save model if images and audio files are uploaded
-    if (attachmentsIds.length > 0 && audioPath !== undefined && audioPath !== '' && audioPath !== null) {
+    if (attachmentsIds.length > 0) {
       model.attachmentsPath = attachmentsIds;
       const newModel = new Renovation(model);
       console.log('newModel', newModel)
@@ -79,7 +79,10 @@ export async function addRenovationUtil(req: any, res: any, model: RenovationInt
         return response;
       }
       else {
-        fs.unlinkSync(audioPath)
+        if(audioPath && audioPath !== ''){
+          fs.unlinkSync(audioPath)
+        }
+        
         for (let k = 0; k < path.length; k++) {
           fs.unlinkSync(path[k])
         }

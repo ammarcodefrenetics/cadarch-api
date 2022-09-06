@@ -3,9 +3,9 @@ interface ConstructionInterface {
   userId: mongoose.Types.ObjectId;
   constructionType: string;
   constructionTypeOption: string[];
-  details: string;
+  details?: string;
   area?: number;
-  audioFile: string;
+  audioFile?: string;
   address: string;
   location: Object;
   isFollowUp: boolean;

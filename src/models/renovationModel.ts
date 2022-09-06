@@ -2,8 +2,8 @@ import mongoose, { Mongoose } from "mongoose";
 interface RenovationInterface {
   userId: mongoose.Types.ObjectId;
   renovationType: string;
-  details: string;
-  audioFile: string;
+  details?: string;
+  audioFile?: string;
   area?: number;
   address: string;
   isFollowUp: boolean;

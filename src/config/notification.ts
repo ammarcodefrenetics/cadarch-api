@@ -30,7 +30,6 @@ admin.messaging().send(message, {
 }
 
 export const sendNotificationMultipleDevices=async(regTokens:string[],data:string)=>{
-  console.log(data , "data to push")
     const message = {
         data: {data : JSON.stringify(data)},
         tokens: regTokens,

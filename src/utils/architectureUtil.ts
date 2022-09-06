@@ -63,7 +63,7 @@ export async function addArchitectureUtil(req: any, res: any, model: Architectur
             }
         }
         //save model if images and audio files are uploaded
-        if (attachmentsIds.length > 0 && audioPath !== undefined && audioPath !== '' && audioPath !== null) {
+        if (attachmentsIds.length > 0 ) {
             model.attachmentsPath = attachmentsIds;
             const newModel = new Architecture(model);
             console.log('newModel', newModel)
@@ -78,7 +78,9 @@ export async function addArchitectureUtil(req: any, res: any, model: Architectur
                 return response;
             }
             else {
+              if(audioPath && audioPath !== ''){
                 fs.unlinkSync(audioPath)
+              }
                 for (let k = 0; k < path.length; k++) {
                     fs.unlinkSync(path[k])
                 }

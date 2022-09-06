@@ -3,8 +3,8 @@ interface ArchitectureInterface {
   userId: mongoose.Types.ObjectId;
   architectureType: string;
   architectureTypeOptionsList: string[];
-  details: string;
-  audioFile: string;
+  details?: string;
+  audioFile?: string;
   address: string;
   isFollowUp: boolean;
   commnets: string;
